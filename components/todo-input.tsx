@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import {
   CATEGORIES,
   DEFAULT_PRIORITY,
@@ -12,11 +14,30 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Card,
+  CardAction,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
+function DarkModeToggle() {
+  const { resolvedTheme, setTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
+  return (
+    <Button
+      type="button"
+      variant="ghost"
+      size="icon-sm"
+      aria-label="다크모드 전환"
+      title="다크모드 전환 (단축키: d)"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+    >
+      {isDark ? <Sun /> : <Moon />}
+    </Button>
+  );
+}
 
 interface TodoInputProps {
   onAdd: (
@@ -49,6 +70,9 @@ export function TodoInput({ onAdd }: TodoInputProps) {
       <Card>
         <CardHeader>
           <CardTitle>할 일 추가</CardTitle>
+          <CardAction>
+            <DarkModeToggle />
+          </CardAction>
         </CardHeader>
 
         <CardContent className="flex flex-col gap-3">
